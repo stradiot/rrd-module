@@ -1,0 +1,15 @@
+{
+  "name": "rrd-module",
+  "version": "1.0.0",
+  "description": "rrd module for IoThings",
+  "main": "rrd-api",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Stradiot",
+  "license": "ISC",
+  "dependencies": {
+    "path": "^0.12.7",
+    "rrdtool": "^0.1.1"
+  }
+}
