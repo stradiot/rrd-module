@@ -46,6 +46,7 @@ function fetch(name, start, end, resolution = 60) {
 
 module.exports = {
   create,
+  remove,
   update,
   fetch
 };
