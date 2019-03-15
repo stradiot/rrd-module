@@ -1,5 +1,6 @@
 const rrdtool = require('rrdtool');
 const path = require('path');
+const fs = require('fs');
 const { databasePath } = require('./config');
 
 function create(name) {
@@ -17,6 +18,18 @@ function create(name) {
   );
 };
 
+async function delete(name) {
+    return new Promise(function(resolve, reject) {
+        fs.unlink(path.join(databasePath, `${name}.rrd`, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
 function update(name, data) {
   const db = rrdtool.open(path.join(databasePath, `${name}.rrd`));
   db.update('N', { ds: data });
@@ -27,7 +40,7 @@ function fetch(name, start, end, resolution = 60) {
   return new Promise(function(resolve, reject) {
       db.fetch('AVERAGE', start, end, resolution, function (err, data) {
         err ? reject(err) : resolve(data);
-      }); 
+      });
   });
 };
 
