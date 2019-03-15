@@ -18,7 +18,7 @@ function create(name) {
   );
 };
 
-async function delete(name) {
+async function remove(name) {
     return new Promise(function(resolve, reject) {
         fs.unlink(path.join(databasePath, `${name}.rrd`, (err) => {
             if (err) {
