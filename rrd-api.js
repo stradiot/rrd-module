@@ -31,17 +31,23 @@ async function remove(name) {
 }
 
 function update(name, data) {
+    if (!fs.existsSync(path.join(databasePath, `${name}.rrd`))) {
+        throw new Error(`RRD file ${name}.rrd does not exists`);
+    }
   const db = rrdtool.open(path.join(databasePath, `${name}.rrd`));
   db.update('N', { ds: data });
 };
 
 function fetch(name, start, end, resolution = 60) {
-  const db = rrdtool.open(path.join(databasePath, `${name}.rrd`));
-  return new Promise(function(resolve, reject) {
-      db.fetch('AVERAGE', start, end, resolution, function (err, data) {
-        err ? reject(err) : resolve(data);
-      });
-  });
+    if (!fs.existsSync(path.join(databasePath, `${name}.rrd`))) {
+        throw new Error(`RRD file ${name}.rrd does not exists`);
+    }
+    const db = rrdtool.open(path.join(databasePath, `${name}.rrd`));
+    return new Promise(function(resolve, reject) {
+        db.fetch('AVERAGE', start, end, resolution, function (err, data) {
+          err ? reject(err) : resolve(data);
+        });
+    });
 };
 
 module.exports = {
